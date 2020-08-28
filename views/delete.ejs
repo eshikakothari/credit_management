@@ -1,0 +1,30 @@
+<%-include("partials/header")-%>
+<table class="table table_css table-bordered table-hover">
+  <thead class="thead-dark">
+<th>Sr.</th>
+  <th>Name</th>
+  <th>Email</th>
+  <th>Credits</th>
+  <th>Select User</th>
+</thead>
+
+<%var a = 0%>
+<%  users.forEach(function(user){ %>
+  <%a+=1%>
+  <tr>
+    <td><%=a%></td>
+    <td><%= user.name %></td>
+    <td><%=user.email%></td>
+    <td><%= user.credits %></td>
+    <td>
+      <form class="" action="/delete" method="post">
+        <input type="hidden" name="id" value=<%=user._id%> >
+        <button type="submit"  class="btn btn-outline-dark" name="button" >Select</button>
+      </form></td>
+  </tr>
+
+
+
+  <% }) %>
+  </table>
+<%-include("partials/footer")-%>

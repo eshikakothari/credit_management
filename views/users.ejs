@@ -1,0 +1,38 @@
+<%- include("partials/header"); -%>
+<div class="table_css">
+<table class="table table-hover table-bordered">
+  <thead class="thead-dark">
+  <th >Sr.</th>
+  <th>Name</th>
+  <th>Email</th>
+  <th>Credits</th>
+  <th>Select User</th>
+  </thead>
+  <% var a = 0; %>
+
+  <%  users.forEach(function(user){ %>
+    <% a+=1; %>
+
+  <tr>
+    <td><%= a %>.</td>
+    <td><%= user.name %></td>
+    <td><%=user.email%></td>
+    <td><%= user.credits %></td>
+    <td>
+      <form class="" action="/users" method="post">
+        <input type="hidden" name="fromid" value=<%=user._id%>>
+        <input type="hidden" name="aname" value=<%=user.name%>>
+        <button type="submit" class="btn btn-outline-dark" name="button">Select</button>
+      </form>
+    </td>
+  </tr>
+
+
+
+  <% }) %>
+</table>
+<a href="/add"><button class=" button_user btn-lg btn btn-outline-light" type="button" name="button">Add User</button></a>
+<a href="/delete"><button class=" button_user btn btn-lg btn-outline-light" type="button" name="button">Delete User</button></a>
+</div>
+
+<%- include("partials/footer"); -%>

@@ -1,0 +1,12 @@
+<%-include("partials/header")-%>
+<div class="form_css">
+
+<form action="/amt" method="post">
+  <div class=" form-group">
+    <label for="amt" >Credit Amount</label>
+    <input class="form-control" id="amt" type="number" name="amount" min=0 value="0">
+  </div>
+  <button type="submit" class="btn btn-dark">Transfer</button>
+</form>
+</div>
+<%-include("partials/footer")-%>
