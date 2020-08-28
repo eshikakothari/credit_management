@@ -1,4 +1,5 @@
 //jshint esversion:6
+require('dotenv').config();
 const dotenv = require("dotenv")
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -7,7 +8,7 @@ const mongoose = require("mongoose");
 mongoose.set('useFindAndModify', false);
 
 
-mongoose.connect("process.env.MONGODB_URI || mongodb://localhost:27017/creditDB", {
+mongoose.connect("mongodb+srv://admin-eshika:"+process.env.PASS+"@cluster0.gcxrb.mongodb.net/creditDB?retryWrites=true&w=majority", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
@@ -31,7 +32,8 @@ const User = mongoose.model("User", contentSchema);
 const historySchema = mongoose.Schema({
   fromUser: String,
   ToUSer: String,
-  creditTransferred: Number
+  creditTransferred: Number,
+  timestamp:String
 });
 const Transaction = mongoose.model("Transaction", historySchema);
 
@@ -51,16 +53,6 @@ app.get("/users", function(req, res) {
     }
   })
 
-});
-app.get("/transfer", function(req, res) {
-  User.find({}, function(err, users) {
-    if (!err) {
-      res.render("transfer", {
-        users: users
-      });
-
-    }
-  })
 });
 app.get("/delete", function(req, res) {
   User.find({}, function(err, users) {
@@ -114,6 +106,18 @@ app.post("/users", function(req, res) {
   res.redirect("/transfer");
 
 });
+app.get("/transfer", function(req, res) {
+  User.find({}, function(err, users) {
+    if (!err) {
+      res.render("transfer", {
+        users: users,
+        a:a
+      });
+
+    }
+  })
+});
+
 app.post("/transfer", function(req, res) {
   b = req.body;
   bname = req.body.bname;
@@ -140,10 +144,15 @@ app.post("/amt", function(req, res) {
             credits: req.body.amount
           }
         }, function(req, res) {});
+        var today = new Date();
+        var date =today.getDate()+'-'+(today.getMonth()+1) +'-'+today.getFullYear();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var dateTime = time+" , "+date;
         const transaction = new Transaction({
           fromUser: aname,
           ToUSer: bname,
-          creditTransferred: req.body.amount
+          creditTransferred: req.body.amount,
+          timestamp:dateTime
         });
         transaction.save();
         res.redirect("/success");
