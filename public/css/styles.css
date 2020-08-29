@@ -57,17 +57,19 @@ body{
 @media screen and (max-width: 660px) {
   .btn1{
     display: block;
-    left:40%;
+    left:30%;
   }
   .btn2{
     display: block;
-    left:32%;
+    left:34%;
     margin-top:20px;
 
   }
 
 }
-
+.tablee{
+  text-align: center;
+}
 .table_css{
   text-align: center;
   margin-top: 30px;
