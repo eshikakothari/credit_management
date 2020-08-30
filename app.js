@@ -106,7 +106,6 @@ app.post("/add", function(req, res) {
         newuser.save();
         res.redirect("/users");
       }else{
-        console.log(user)
         res.redirect("/existinguser");
       }
     }
