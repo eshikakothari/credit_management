@@ -82,7 +82,9 @@ app.get("/success", function(req, res) {
 app.get("/failure", function(req, res) {
   res.render("failure");
 })
-
+app.get("/existinguser",function(req,res){
+  res.render("existinguser")
+})
 app.post("/delete", function(req, res) {
   User.deleteOne({
     _id: req.body.id
@@ -92,13 +94,21 @@ app.post("/delete", function(req, res) {
   });
 });
 app.post("/add", function(req, res) {
-  const newuser = new User({
-    name: req.body.name,
-    email: req.body.email,
-    credits: req.body.credit
-  });
-  newuser.save();
-  res.redirect("/users");
+  User.find({name:req.name},function(err,user){
+    if(!err){
+      if(!user){
+        const newuser = new User({
+          name: req.body.name,
+          email: req.body.email,
+          credits: req.body.credit
+        });
+        newuser.save();
+        res.redirect("/users");
+      }else{
+        res.redirect("/existinguser");
+      }
+    }
+  })
 });
 app.post("/users", function(req, res) {
   a = req.body;
