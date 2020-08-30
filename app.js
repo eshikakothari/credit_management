@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
 mongoose.set('useFindAndModify', false);
+const _ = require("lodash");
 
 
 mongoose.connect("mongodb+srv://admin-eshika:"+process.env.PASS+"@cluster0.gcxrb.mongodb.net/creditDB?retryWrites=true&w=majority", {
@@ -94,9 +95,9 @@ app.post("/delete", function(req, res) {
   });
 });
 app.post("/add", function(req, res) {
-  User.find({name:req.name},function(err,user){
+  User.find({name:req.body.name, name:_.capitalize(req.body.name),name:_.startCase(req.body.name)},function(err,user){
     if(!err){
-      if(!user){
+      if(!user[0]){
         const newuser = new User({
           name: req.body.name,
           email: req.body.email,
@@ -105,6 +106,7 @@ app.post("/add", function(req, res) {
         newuser.save();
         res.redirect("/users");
       }else{
+        console.log(user)
         res.redirect("/existinguser");
       }
     }
